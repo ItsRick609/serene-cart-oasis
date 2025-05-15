@@ -262,7 +262,7 @@ const Shop = () => {
             
             <div className="md:col-span-3">
               {isLoading ? (
-                <div className="product-grid animate-pulse">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 animate-pulse">
                   {[...Array(8)].map((_, index) => (
                     <div key={index} className="rounded-lg border p-2">
                       <div className="aspect-square rounded-md bg-grocery-bg-subtle"></div>
@@ -272,7 +272,7 @@ const Shop = () => {
                   ))}
                 </div>
               ) : filteredProducts.length > 0 ? (
-                <div className="product-grid">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {filteredProducts.map(product => (
                     <ProductCard key={product.id} product={product} />
                   ))}
