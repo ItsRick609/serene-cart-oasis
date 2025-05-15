@@ -1,5 +1,5 @@
-
 import type { Config } from "tailwindcss";
+import plugin from 'tailwindcss/plugin'; // Added import for plugin
 
 export default {
 	darkMode: ["class"],
@@ -101,5 +101,18 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+    require("tailwindcss-animate"),
+    plugin(function({ addUtilities }) {
+      const newUtilities = {
+        '.text-outline-black': {
+          'text-shadow': '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
+        },
+        '.text-outline-white': { // Example for white outline if needed later
+          'text-shadow': '-1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px 1px 0 #FFF',
+        }
+      }
+      addUtilities(newUtilities)
+    })
+  ],
 } satisfies Config;
