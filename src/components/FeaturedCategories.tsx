@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import CategoryCard, { Category } from '@/components/CategoryCard';
 
 const FeaturedCategories = () => {
@@ -68,6 +69,14 @@ const FeaturedCategories = () => {
           {categories.map(category => (
             <CategoryCard key={category.id} category={category} />
           ))}
+        </div>
+        <div className="mt-8 text-center">
+          <Link 
+            to="/categories" 
+            className="inline-flex items-center justify-center px-6 py-2 border border-transparent text-base font-medium rounded-md text-white bg-grocery-accent hover:bg-grocery-accent-hover"
+          >
+            View All Categories
+          </Link>
         </div>
       </div>
     </section>
