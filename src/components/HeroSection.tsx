@@ -19,7 +19,7 @@ const HeroSection = () => {
       <div className="container relative mx-auto flex min-h-[500px] max-w-screen-xl flex-col items-start justify-center px-4 py-16 sm:py-24">
         <h1 className="mb-4 max-w-2xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
           Fresh Groceries <br />
-          <span className="text-grocery-accent">Delivered to Your Door</span>
+          <span className="text-white">Delivered to Your Door</span>
         </h1>
         
         <p className="mb-8 max-w-lg text-lg text-grocery-text-light">
@@ -49,3 +49,4 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
