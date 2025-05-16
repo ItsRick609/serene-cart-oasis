@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -9,7 +8,9 @@ import {
   User,
   Search,
   Menu,
-  X
+  X,
+  Info,
+  Mail
 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { 
@@ -27,6 +28,14 @@ const Header = () => {
     setIsSearchOpen(!isSearchOpen);
   };
 
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/shop", label: "Shop" },
+    { href: "/categories", label: "Categories" },
+    { href: "/about", label: "About Us" },
+    { href: "/contact", label: "Contact" },
+  ];
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-grocery-bg-light">
       <div className="container mx-auto flex h-16 max-w-screen-xl items-center justify-between px-4">
@@ -40,21 +49,11 @@ const Header = () => {
               </SheetTrigger>
               <SheetContent side="left" className="w-[250px] sm:w-[300px]">
                 <nav className="grid gap-6 pt-6">
-                  <SheetClose asChild>
-                    <Link to="/" className="text-lg font-medium hover:text-grocery-accent">Home</Link>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Link to="/shop" className="text-lg font-medium hover:text-grocery-accent">Shop</Link>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Link to="/categories" className="text-lg font-medium hover:text-grocery-accent">Categories</Link>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Link to="/about" className="text-lg font-medium hover:text-grocery-accent">About Us</Link>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Link to="/contact" className="text-lg font-medium hover:text-grocery-accent">Contact</Link>
-                  </SheetClose>
+                  {navLinks.map(link => (
+                    <SheetClose asChild key={link.href}>
+                      <Link to={link.href} className="text-lg font-medium hover:text-grocery-accent">{link.label}</Link>
+                    </SheetClose>
+                  ))}
                 </nav>
               </SheetContent>
             </Sheet>
@@ -66,11 +65,9 @@ const Header = () => {
 
           {!isMobile && (
             <nav className="hidden md:flex items-center space-x-6 text-sm">
-              <Link to="/" className="font-medium hover:text-grocery-accent">Home</Link>
-              <Link to="/shop" className="font-medium hover:text-grocery-accent">Shop</Link>
-              <Link to="/categories" className="font-medium hover:text-grocery-accent">Categories</Link>
-              <Link to="/about" className="font-medium hover:text-grocery-accent">About Us</Link>
-              <Link to="/contact" className="font-medium hover:text-grocery-accent">Contact</Link>
+              {navLinks.map(link => (
+                <Link key={link.href} to={link.href} className="font-medium hover:text-grocery-accent">{link.label}</Link>
+              ))}
             </nav>
           )}
         </div>
