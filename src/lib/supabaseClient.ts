@@ -1,17 +1,11 @@
-
 import { createClient } from '@supabase/supabase-js';
+import type { Database } from '@/integrations/supabase/types';
 
-// Ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set in your .env file
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl) {
-  console.error("Error: VITE_SUPABASE_URL is not set. Please check your .env file.");
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase environment variables');
 }
 
-if (!supabaseAnonKey) {
-  console.error("Error: VITE_SUPABASE_ANON_KEY is not set. Please check your .env file.");
-}
-
-export const supabase = createClient(supabaseUrl as string, supabaseAnonKey as string);
-
+export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
