@@ -17,6 +17,7 @@ import Contact from "./pages/Contact";
 import AddProductPage from "./pages/AddProduct";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
+import Account from "./pages/Account";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/add-product" element={<AddProductPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/account" element={<Account />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
