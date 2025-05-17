@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -18,6 +19,7 @@ import AddProductPage from "./pages/AddProduct";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 import Account from "./pages/Account";
+import ProtectedRoute from "@/components/ProtectedRoute"; // Import ProtectedRoute
 
 const queryClient = new QueryClient();
 
@@ -41,7 +43,15 @@ const App = () => (
             <Route path="/add-product" element={<AddProductPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/account" element={<Account />} />
+            {/* Protected Route for Account */}
+            <Route 
+              path="/account" 
+              element={
+                <ProtectedRoute>
+                  <Account />
+                </ProtectedRoute>
+              } 
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
