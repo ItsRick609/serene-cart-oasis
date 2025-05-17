@@ -1,4 +1,5 @@
-import { Layout } from "@/components/Layout";
+
+import Layout from "@/components/Layout"; // Changed from { Layout } to Layout
 
 const Account = () => {
   return (
