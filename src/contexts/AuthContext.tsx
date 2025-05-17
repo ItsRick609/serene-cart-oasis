@@ -1,10 +1,11 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { User, AuthError } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabaseClient';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { User, AuthError, Session } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client'; // Changed import path
 import { useToast } from '@/hooks/use-toast';
 
 interface AuthContextType {
   user: User | null;
+  session: Session | null; // Added session state
   loading: boolean;
   signUp: (email: string, password: string) => Promise<{ error: AuthError | null }>;
   signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
@@ -12,28 +13,35 @@ interface AuthContextType {
   signInWithPhone: (phone: string) => Promise<{ error: AuthError | null }>;
   verifyOTP: (phone: string, token: string) => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<void>;
+  // TODO: Add requestPasswordReset here
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null); // Initialize session state
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check active sessions and sets the user
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
+    // Listen for changes on auth state FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, sessionState) => {
+      setSession(sessionState);
+      setUser(sessionState?.user ?? null);
+      // setLoading(false); // setLoading might be better tied to getSession completion
     });
 
-    // Listen for changes on auth state
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+    // THEN check active sessions and sets the user
+    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+      setSession(currentSession);
+      setUser(currentSession?.user ?? null);
+      setLoading(false); // Set loading to false after initial session check
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signUp = async (email: string, password: string) => {
@@ -117,6 +125,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const value = {
     user,
+    session, // Added session to context value
     loading,
     signUp,
     signIn,
